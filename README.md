@@ -283,7 +283,8 @@ mydf_norm %>%
   geom_boxplot()
 ```
 
-![](figure/countsboxplot-1.png)<!-- -->
+![](figures/countsboxplot-1.png)<!-- -->
+  
 Dataset of normalized **counts per gene and SRA library**
 
 ```r
@@ -319,7 +320,7 @@ lines(density(bySRA$SRR5927133), col = 3)
 lines(density(bySRA$SRR5927134), col = 4)
 ```
 
-![](figure/density-1.png)<!-- -->
+![](figures/density-1.png)<!-- -->
 
 
 **Scatter-plot**, comparing counts of two samples to each other
