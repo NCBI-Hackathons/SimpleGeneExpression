@@ -272,3 +272,81 @@ mydf_norm
 
 
 
+## Analysis of normalized counts
+**Boxplot of gene counts distribution**  
+
+
+```r
+library(ggplot2)
+mydf_norm %>% 
+  ggplot(aes(x =  reorder(Reference, norm_Counts), y = norm_Counts)) + 
+  geom_boxplot()
+```
+
+![](figure/countsboxplot-1.png)<!-- -->
+Dataset of normalized **counts per gene and SRA library**
+
+```r
+library(tidyr)
+bySRA <-  spread(mydf_norm, Query, norm_Counts)
+bySRA
+```
+
+```
+## # A tibble: 23 x 5
+##    Reference    SRR5927129 SRR5927130 SRR5927133 SRR5927134
+##    <fct>             <dbl>      <dbl>      <dbl>      <dbl>
+##  1 LOC101489666      3497.      4785.       667.      6254.
+##  2 LOC101491204      9854.      2430.      5779.       894.
+##  3 LOC101492112      3245.      4491.      3442.      5101.
+##  4 LOC101492136      2085.      1511.      1698.      1745.
+##  5 LOC101492451       237.       267.       205.       361.
+##  6 LOC101492916       490.       753.      1416.       926.
+##  7 LOC101493974       784.       553.       903.      1429.
+##  8 LOC101496441       653.       457.       397.       626.
+##  9 LOC101498188     10414.     10952.     11552.     12380.
+## 10 LOC101498659      3461.      1704.      2617.      2130.
+## # ... with 13 more rows
+```
+
+**Density plots of normalized counts**  
+
+
+```r
+plot(density(bySRA$SRR5927129), col = 1, main = 'Counts', ylim = c(0, 0.0004))
+lines(density(bySRA$SRR5927130), col = 2)
+lines(density(bySRA$SRR5927133), col = 3)
+lines(density(bySRA$SRR5927134), col = 4)
+```
+
+![](figure/density-1.png)<!-- -->
+
+
+**Scatter-plot**, comparing counts of two samples to each other
+### Example1
+
+```r
+ggplot(bySRA, aes(x = SRR5927129, y = SRR5927133)) +
+  geom_point() +
+  ggtitle("Control roots") + 
+  xlab("Tolerant plants") + 
+  ylab("Susceptible plants") + 
+  geom_smooth(method = "lm")
+```
+
+![](figures/scatterControl-1.png)<!-- -->
+  
+### Example2
+```r
+ggplot(bySRA, aes(x = SRR5927134, y = SRR5927133)) +
+  geom_point() +
+  ggtitle("Roots", "Tolerant plants") + 
+  xlab("Control") + 
+  ylab("Drought") + 
+  geom_smooth(method = "lm")
+```
+
+![](figures/scatterTolerant-1.png)<!-- -->
+
+
+
