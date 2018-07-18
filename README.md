@@ -63,7 +63,7 @@ Before analyzing the data, we have to apply a number of filters to tidy the data
 
 ## Filter
 ### Filter 1 : alignement length score 
-First, check the query lengths (length reads )
+If we check the query lengths (length reads) we can see that the whole dataset is made of reads 125 bp length.
 
 ```r
 table(df$query.length)
@@ -74,9 +74,8 @@ table(df$query.length)
 ##     125 
 ## 1516497
 ```
-This means that the whole reads dataset is 125 bp length. 
-Now, we check the alignement length scores and see the scores of the alignements:  
 
+**Filter1** involves filtering by high alignement length score. We can check the length scores: 
 
 ```r
 plot(density(df$score))
@@ -84,8 +83,8 @@ plot(density(df$score))
 
 ![](figures/plot_alignlengths-1.png)<!-- -->
 
-**Filter1** involves filtering by high alignement length score. 
-Here we use at least 120 bp as an argument for the function `by_score`. 
+
+Here, we want to use at least 120 bp as an argument for the function `by_score`. 
 
 
 ```r
@@ -93,7 +92,7 @@ df_filtered <- by_score(df, 120)
 plot(density(df_filtered$score), col = "red")
 ```
 
-![](README_files/figure-html/byscore-1.png)<!-- -->
+![](figures/byscore-1.png)<!-- -->
 
 
 ### Filter 2 : identity 
@@ -103,7 +102,7 @@ We want high scores for the alignements but also with high identities. See the d
 plot(density(df_filtered$identity))
 ```
 
-![](README_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+![](figures/unnamed-chunk-5-1.png)<!-- -->
 
 **Filter2** involves filtering by high identities. Here we use at least 99% as 
 an argument for the function `by_identity`
@@ -113,7 +112,7 @@ df_filtered <- by_identity(df_filtered, 99)
 plot(density(df_filtered$identity), col = "red")
 ```
 
-![](README_files/figure-html/by_identity-1.png)<!-- -->
+![](figures/by_identity-1.png)<!-- -->
 
 The function `tidy_query.acc`creates a new dataset with the number of sequence 
 counts from the filtered data.  
@@ -131,7 +130,7 @@ df_filtered <- as_data_frame(df_filtered)
 hist(df_filtered$Count)
 ```
 
-![](README_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![](figures/unnamed-chunk-7-1.png)<!-- -->
 
 ### Plot Counts ~ SRA run
 
@@ -142,7 +141,7 @@ boxplot(df_filtered$Count ~ df_filtered$Query,
         col = c("grey80", "grey50", "grey80", "grey50"))
 ```
 
-![](README_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+![](figures/unnamed-chunk-8-1.png)<!-- -->
   
   
 ### Optional filter:   
