@@ -82,7 +82,7 @@ Now, we check the alignement length scores and see the scores of the alignements
 plot(density(df$score))
 ```
 
-![](README_files/figure-html/plot_alignlengths-1.png)<!-- -->
+![](figures/plot_alignlengths-1.png)<!-- -->
 
 **Filter1** involves filtering by high alignement length score. 
 Here we use at least 120 bp as an argument for the function `by_score`. 
