@@ -3,17 +3,7 @@ library(dplyr)
 library(rentrez)
 library(stringr)
 
-# Filter by score
-by_score <- function(df, score) {
-  df = df[df$score >= score, ]
-}
-
-# Filter by identity
-by_identity <- function(df, identity) {
-  df = df[df$identity >= identity, ]
-}
-
-# Clean up the n-end characters from a string 
+## Clean up the n-end characters from a string 
 clean_end <- function(str, x){
   
   ### str, string vector
@@ -25,8 +15,7 @@ clean_end <- function(str, x){
 }
 
 
-
-# Extract the end n-chars from a string
+## Extract the end n-chars from a string
 get_end <- function(str, x) {
   
   ### str, string vector
@@ -39,8 +28,8 @@ get_end <- function(str, x) {
 }
 
 ## Keep 1 hit per match. Otherwise we would be counting twice, 
-## a single hit with two matches in the seq.
-tidy_query.acc <- function(df) {
+# a single hit with two matches in the seq.
+one_match <- function(df) {
   
   ## Create new df with number of sequence counts  
   ### df, dataset
@@ -58,27 +47,53 @@ tidy_query.acc <- function(df) {
   if(length(index) > 0) {
     # remove rows with ".2"
     df = df[-index,]
-    }
+  }
   
   ## Clean up everything beyond '.' in a string 
   df$query = sub("\\..*", "", df$query)
+  
+  ## Select columns
+  df <- df %>% 
+    select(query, reference.acc, identity, query.start:reference.end, 
+           query.strand:query.length) 
+  
+  df
+}  
+
+## Filter by score
+by_score <- function(df, score) {
+  df = df[df$score >= score, ]
+}
+
+## Filter by identity
+by_identity <- function(df, identity) {
+  df = df[df$identity >= identity, ]
+}
+
+
+## Create df with number of sequence counts 
+getCounts <- function(df) {
+  
+  ### df, dataset
   
   # rename col names 
   df = df %>% 
     select(query, reference.acc) %>% 
     rename("Query" = "query", "Reference" = "reference.acc")
   
-  # select columns 
+  
+  # select columns
   df = df %>% 
     group_by(Query, Reference) %>% 
     summarise(Count = n()) %>% 
+    arrange(desc(Count)) %>%
     ungroup()
+  
   
   df
   
-}
-
-
+  
+  }
 
 
 ## 'getSize' takes a vector containing NCBI SRA accessions and returns and vector 
