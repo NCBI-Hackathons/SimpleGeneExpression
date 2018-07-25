@@ -54,8 +54,11 @@ tidy_query.acc <- function(df) {
   # index for query.acc with ".2"
   index = which(get_end(df[[1]],2) == ".2")
   
-  # remove rows with ".2"
-  df = df[-index,]
+  # only if there are ".2" sequences
+  if(length(index) > 0) {
+    # remove rows with ".2"
+    df = df[-index,]
+    }
   
   ## Clean up everything beyond '.' in a string 
   df$query = sub("\\..*", "", df$query)
