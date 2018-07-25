@@ -54,7 +54,7 @@ one_match <- function(df) {
   
   ## Select columns
   df <- df %>% 
-    select(query, reference.acc, identity, query.start:reference.end, 
+    select(query, reference.acc, score, identity, query.start:reference.end, 
            query.strand:query.length) 
   
   df
