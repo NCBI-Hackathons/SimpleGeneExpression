@@ -1,6 +1,16 @@
 # SimpleGeneExpression
 Programs to quantify expression of transcripts from public datasets
 
+
+### Developers 
+   * Jose V Die
+   * Moamen Elmassry
+   * Ben Busby
+
+
+
+  <br>
+
 This tutorial is based on the analysis of the Magic-BLAST table output. Please, read the 
 [documentation](https://ncbi.github.io/magicblast/) to understand how Magic-BLAST 
 works.   
