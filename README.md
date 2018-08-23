@@ -2,7 +2,7 @@
 Programs to quantify expression of transcripts from public datasets
 
 
-### Developers 
+### Project team 
    * Jose V Die
    * Moamen Elmassry
    * Ben Busby
