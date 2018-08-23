@@ -27,7 +27,7 @@ We may want to remove those rows with the command line :
 tail -n +4 my_magic > my_magic
 ```
 
-Here, the starting point is a dataset made of 24 auxin receptor factors (ARF) genes from the chickpea genome. Code to identify those accessions is available from the [GeneHummus](https://github.com/NCBI-Hackathons/GeneHummus) repository. We will study the frecuency of the 24 ARF genes in root tissues of two genotypes under drought stress and control conditions across 4 SRA libraries:   
+Here, the starting point is a dataset made of 24 auxin receptor factors (ARF) genes from the chickpea genome. Code to identify those accessions is available from the [GeneHummus](https://github.com/NCBI-Hackathons/GeneHummus) repository. We will study the frequency of the 24 ARF genes in root tissues of two genotypes under drought stress and control conditions across 4 SRA libraries:   
 
 * [SRR5927129](https://www.ncbi.nlm.nih.gov/sra/?term=SRR5927129). Susceptible_Control  
 * [SRR5927130](https://www.ncbi.nlm.nih.gov/sra/?term=SRR5927130). Susceptible_Drought  
