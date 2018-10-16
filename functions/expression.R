@@ -2,6 +2,8 @@
 library(dplyr)
 library(rentrez)
 library(stringr)
+library(ggplot2)
+
 
 ## Clean up the n-end characters from a string 
 clean_end <- function(str, x){
