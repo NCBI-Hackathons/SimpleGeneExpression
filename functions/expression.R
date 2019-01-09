@@ -103,7 +103,7 @@ getCounts <- function(df) {
 
 getSize <- function(ids) {
   
-  sizes = vector(mode = "numeric", length = length(ids))
+  sizes = vector(mode = "numeric")
   
   for(id in ids) {
     term =  paste0(id, "[ACCN]")
