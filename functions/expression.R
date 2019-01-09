@@ -103,28 +103,32 @@ getCounts <- function(df) {
 
 getSize <- function(ids) {
   
-  sizes <- c()
+  sizes = c()
   
-  for(i in ids) {
-    
-    term =  paste0(i, "[ACCN]")
-    run = entrez_search(db = "sra", term = term)
+  for(id in ids) {
+    term =  paste0(id, "[ACCN]")
+    run = entrez_search(db = "sra", term = term )
     exp_descrip = entrez_summary(db = "sra", id = run[[1]])
     x = exp_descrip$run
     
-    ## extract range defined by "total bases" and "load_done"
-    size = str_sub(x, start =str_locate(x, "total_bases=")[2]+2, 
-                   end =str_locate(x, "load_done")[1]-3)
+    # biological reps. are shown between ";"
+    bioreps = str_split(x, ";")
+    # loop over bio reps to find the right run 
+    for(i in seq_along(1:length(bioreps[[1]]))) {
+      if(str_detect(bioreps[[1]][i], id)) {
+        # extract range defined by "total bases" and "load_done"
+        size = str_sub(x, start =str_locate(x, "total_bases=")[2]+2, 
+                       end =str_locate(x, "load_done")[1]-3)
+      }
+    }
     
     size_mega = as.numeric(size)/1e6
-    
     sizes <- c(sizes, size_mega)
     
   }
-  
   sizes
   
-}
+  }
 
 ## Usage 
 # ids <- c("DRR071071", "ERR1912953")
