@@ -72,72 +72,65 @@ dim(df)
 Before analyzing the data, we have to apply a number of filters to tidy the dataset. 
 
 ## Filter
-### Filter 1 : alignement length score 
-If we check the query lengths (length reads) we can see that the whole dataset is made of reads 125 bp length.
+### Filter 1: Keep 1 hit per match.
+Otherwise a single hit with two matches in the seq would be counted twice. 
+```{r}
+df = one_match(df)
+dim(df)
+```
 
-```r
+### Filter 2 : alignment length score 
+First, check the query lengths (length reads )
+```{r qlengths}
 table(df$query.length)
 ```
+This means that the whole reads dataset is 125 bp length. 
+Now, we check the alignement length scores and see the scores of the alignements:  
 
-```
-## 
-##     125 
-## 1516497
-```
-
-**Filter1** involves filtering by high alignement length score. We can check the length scores: 
-
-```r
+```{r plot_alignlengths}
 plot(density(df$score))
 ```
-
 ![](figures/plot_alignlengths-1.png)<!-- -->
 
+**Filter2** involves filtering by high alignment length score. 
+Here we use at least 120 bp as an argument for the function `by_score`. 
 
-Here, we want to use at least 120 bp as an argument for the function `by_score`. 
-
-
-```r
+```{r byscore, cache  = TRUE}
 df_filtered <- by_score(df, 120) 
 plot(density(df_filtered$score), col = "red")
 ```
-
 ![](figures/byscore-1.png)<!-- -->
 
 
-### Filter 2 : identity 
+### Filter 3 : identity 
 We want high scores for the alignements but also with high identities. See the distribution of the identities for the filteres data : 
-
-```r
+```{r}
 plot(density(df_filtered$identity))
 ```
-
 ![](figures/unnamed-chunk-5-1.png)<!-- -->
 
-**Filter2** involves filtering by high identities. Here we use at least 99% as 
-an argument for the function `by_identity`
 
-```r
+**Filter3** involves filtering by high identities. Here we use at least 99% as 
+an argument for the function `by_identity`
+```{r by_identity, cache = TRUE}
 df_filtered <- by_identity(df_filtered, 99)
 plot(density(df_filtered$identity), col = "red")
 ```
-
 ![](figures/by_identity-1.png)<!-- -->
 
-The function `tidy_query.acc`creates a new dataset with the number of sequence 
+
+The function `getCounts` creates a new dataset with the number of sequence 
 counts from the filtered data.  
-
-```r
-df_filtered <- tidy_query.acc(df_filtered)
+```{r}
+df_counts <- getCounts(df_filtered)
 # Create a tibble object
-df_filtered <- as_data_frame(df_filtered)
+df_counts <- as_data_frame(df_counts)
 ```
-
 
 ### Plot of Counts
 
 ```r
-hist(df_filtered$Count)
+hist(df_counts$Count)
 ```
 
 ![](figures/unnamed-chunk-7-1.png)<!-- -->
@@ -157,12 +150,10 @@ boxplot(df_filtered$Count ~ df_filtered$Query,
 ### Optional filter:   
 Genes with presence at least in *n* SRA libraries    
 
-
 ```r
-df_filtered %>% 
-  group_by(Reference) %>% 
-  summarize(Total = n()) %>%
-  arrange(Total)
+df_counts %>% 
+  count(Reference) %>% 
+  arrange(n)
 ```
 
 ```
@@ -186,10 +177,11 @@ Filter by genes present in all 4 libraries.
 
 ```r
 # total number of occurrences for each gene
-mydf <- df_filtered %>% 
+mydf <- df_counts %>% 
   filter(Reference != "LOC101514738" )
 
 mydf
+
 ```
 
 ```
@@ -209,8 +201,7 @@ mydf
 ## # ... with 82 more rows
 ```
 
-Now, add a column with the SRA run size with the `gatherSize` function 
-
+Now, add a new column showing the SRA run size using the `gatherSize` function 
 
 ```r
 mydf <- mutate(mydf, Runsize = gatherSize(mydf))
@@ -290,7 +281,9 @@ mydf_norm
 library(ggplot2)
 mydf_norm %>% 
   ggplot(aes(x =  reorder(Reference, norm_Counts), y = norm_Counts)) + 
-  geom_boxplot()
+  geom_boxplot() + 
+  xlab("") +
+  scale_y_log10()
 ```
 
 ![](figures/countsboxplot-1.png)<!-- -->
