@@ -113,12 +113,14 @@ getSize <- function(ids) {
     
     # biological reps. are shown between ";"
     bioreps = str_split(x, ";")
-    # loop over bio reps to find the right run 
+    
+    # loop over bio. reps. to find out the right run 
     for(i in seq_along(1:length(bioreps[[1]]))) {
       if(str_detect(bioreps[[1]][i], id)) {
         # extract range defined by "total bases" and "load_done"
-        size = str_sub(x, start =str_locate(x, "total_bases=")[2]+2, 
-                       end =str_locate(x, "load_done")[1]-3)
+        run = bioreps[[1]][i]
+        size = str_sub(run, start =str_locate(run, "total_bases=")[2]+2, 
+                       end =str_locate(run, "load_done")[1]-3)
       }
     }
     
