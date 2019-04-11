@@ -81,7 +81,7 @@ getCounts <- function(df) {
   # rename col names 
   df = df %>% 
     select(query, reference.acc) %>% 
-    rename("Query" = "query", "Reference" = "reference.acc")
+    rename(query = "Query", "reference.acc" = "Reference")
   
   
   # select columns
