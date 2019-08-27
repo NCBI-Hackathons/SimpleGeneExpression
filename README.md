@@ -8,7 +8,7 @@ Programs to quantify expression of transcripts from public datasets
    * Ben Busby
 
    
-### Citations    
+### Cited by    
   * Die JV, Castro P, Millán T, Gil J. Segmental and Tandem Duplications Driving the Recent NBS-LRR Gene Expansion in the Asparagus Genome. [Genes 2018](https://www.mdpi.com/2073-4425/9/12/568), 9, 568.
   * Die JV, Elmassry M, LeBlanc KH, Awe OI, Dillman A, Busby B. geneHummus: an R package to define gene families and their expression in legumes and beyond. [BMC Genomics 2019](https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-019-5952-2#article-info) volume 20: 591
 
