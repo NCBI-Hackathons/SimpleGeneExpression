@@ -78,14 +78,10 @@ getCounts <- function(df) {
   
   ### df, dataset
   
-  # rename col names 
+  # rename col names + select columns
   df = df %>% 
     select(query, reference.acc) %>% 
-    rename(query = "Query", "reference.acc" = "Reference")
-  
-  
-  # select columns
-  df = df %>% 
+    rename(Query = query, Reference = reference.acc) %>% 
     group_by(Query, Reference) %>% 
     summarise(Count = n()) %>% 
     arrange(desc(Count)) %>%
@@ -94,8 +90,8 @@ getCounts <- function(df) {
   
   df
   
-  
-  }
+}
+
 
 
 ## 'getSize' takes a vector containing NCBI SRA accessions and returns and vector 
